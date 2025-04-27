@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide scrollbar for cleaner UI on filters and other horizontal scrolling elements */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-\[float_4s_ease-in-out_infinite\] {
+  animation: float 4s ease-in-out infinite;
+}
+.animate-\[float_3\.5s_ease-in-out_infinite\] {
+  animation: float 3.5s ease-in-out infinite;
+}
+.animate-\[float_5s_ease-in-out_infinite\] {
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes pulse-shadow {
+  0% { text-shadow: 0 0 4px #fff, 0 0 10px #a78bfa, 0 0 20px #f472b6; }
+  50% { text-shadow: 0 0 16px #fff, 0 0 30px #a78bfa, 0 0 40px #f472b6; }
+  100% { text-shadow: 0 0 4px #fff, 0 0 10px #a78bfa, 0 0 20px #f472b6; }
+}
+
+
 html,
 body {
   height: 100%;

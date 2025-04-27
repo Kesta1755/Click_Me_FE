@@ -60,7 +60,7 @@ const MenuPortal: React.FC = () => {
 
   const menuItems = [
     { name: 'Home', href: '/' },
-    { name: 'Cliques (Coming Soon!)', href: '#' },
+    { name: 'Cliques', href: '/cliques' },
     { name: 'Docs', href: 'https://click-me.gitbook.io/click-me-docs' },
   ];
 
@@ -73,7 +73,8 @@ const MenuPortal: React.FC = () => {
       left: '20px',
       top: '50%',
       transform: 'translateY(-50%)',
-      zIndex: 110,
+      zIndex: 200, // ensure above all header layers
+      pointerEvents: 'auto',
       display: isDesktopMenuOpen ? 'none' : 'block'
     }}>
       <button
@@ -87,7 +88,8 @@ const MenuPortal: React.FC = () => {
           padding: '8px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          pointerEvents: 'auto'
         }}
       >
         <IconMenu2 size={24} />
@@ -102,7 +104,8 @@ const MenuPortal: React.FC = () => {
       left: '50%',
       top: '50%',
       transform: 'translate(-50%, -50%)',
-      zIndex: 110
+      zIndex: 200, // ensure above all header layers
+      pointerEvents: 'auto'
     }}>
       <button
         onClick={toggleMobileMenu}
@@ -112,7 +115,8 @@ const MenuPortal: React.FC = () => {
           background: 'transparent',
           border: 'none',
           color: 'white',
-          padding: '8px'
+          padding: '8px',
+          pointerEvents: 'auto'
         }}
       >
         <IconChevronDown 
@@ -273,6 +277,10 @@ const MenuPortal: React.FC = () => {
           {createPortal(mobileButton, headerEl)}
         </>
       )}
+      {/* Ensure coin animation container never blocks pointer events */}
+      <style>{`
+        .button-coin-animation { pointer-events: none !important; }
+      `}</style>
       {menuContent}
     </>
   );
