@@ -8,6 +8,8 @@ import ClockIcon from '@/components/icons/ClockIcon';
 import { Globe, Twitter, Send } from 'lucide-react';
 import Link from 'next/link';
 import { IconCoin } from '@tabler/icons-react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import CliqueStakeButton from '@/components/cliques/CliqueStakeButton';
 
 // Header, MenuPortal, and Footer are provided by the RootLayout
 
@@ -207,6 +209,9 @@ const CliquesPage: React.FC = () => {
     setExpanded(expanded === rank ? null : rank);
   };
 
+  // Get wallet connection status
+  const { connected } = useWallet();
+
   // Create animation effect similar to main page
   const triggerCascade = useCallback(() => {
     setIsAnimating(true);
@@ -370,6 +375,12 @@ const CliquesPage: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-4 mt-4">
                           <Link href="/game" className="bg-purple-700 px-4 py-2 rounded-md text-white font-semibold shadow hover:bg-purple-800 transition">Play Now</Link>
+                          
+                          {/* Staking Button */}
+                          {connected && (
+                            <CliqueStakeButton cliqueId={token.symbol.toLowerCase()} symbol={token.symbol} />
+                          )}
+                          
                           {/* Socials */}
                           <div className="flex items-center space-x-2">
                             <a href={token.links.find((l) => l.icon === 'globe')?.url || '#'} className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-white" aria-label="Website" tabIndex={0}><Globe size={18} /></a>
@@ -387,6 +398,8 @@ const CliquesPage: React.FC = () => {
                       <span className="w-8 h-8 flex items-center justify-center rounded-full font-bold text-base mr-4 bg-[#181a2a] text-gray-200 border border-[#393c4d]">#{token.rank}</span>
                       <span className={`w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg mr-4 ${token.symbol === 'BONK' ? 'bg-yellow-400 text-gray-900' : token.symbol === 'P' ? 'bg-pink-400 text-white' : token.symbol === 'M' ? 'bg-orange-400 text-white' : token.symbol === 'F' ? 'bg-gray-700 text-white' : 'bg-purple-700 text-white'}`}>{token.symbol[0]}</span>
                       <span className="font-bold text-lg flex-1 truncate text-white">{token.name}</span>
+                      
+                      {/* Quick Play Button */}
                       {token.quickPlay && (
                         <button
                           className="ml-2 sm:ml-3 bg-purple-600 text-xs text-white font-semibold rounded px-2 py-1 focus:outline-none hover:bg-purple-700 transition touch-manipulation"
@@ -396,6 +409,13 @@ const CliquesPage: React.FC = () => {
                         >
                           Quick Play
                         </button>
+                      )}
+                      
+                      {/* Staking Button in collapsed view */}
+                      {connected && (
+                        <div className="ml-2 sm:ml-3">
+                          <CliqueStakeButton cliqueId={token.symbol.toLowerCase()} symbol={token.symbol} />
+                        </div>
                       )}
                       <span className="flex items-center text-gray-200 text-base ml-4"><ClockIcon className="mr-1" /> {token.time}</span>
                       <span className="flex items-center text-green-300 font-bold ml-4"><DollarIcon className="mr-1" /> {token.amount}</span>
